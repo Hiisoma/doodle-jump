@@ -1,0 +1,160 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #1b1f2a;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  touch-action: none;
+}
+
+#game-wrap {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+  #world — это "логический" мир игры, всегда 480x720 px.
+  Он не резиновый: вместо этого JS считает коэффициент
+  масштаба под размер экрана и применяет transform: scale(...)
+  ко всему миру целиком. Всё, что внутри (шарик, ступеньки,
+  экраны start/game-over), позиционируется в "логических"
+  пикселях 0..480 / 0..720 и не должно само подстраиваться.
+*/
+#world {
+  position: relative;
+  width: 480px;
+  height: 720px;
+  background: linear-gradient(#bdeaff, #eaf9ff);
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+/* Шарик игрока */
+#player {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #3ba7ff;
+  /* глаза шарика рисуем двумя псевдоэлементами, чтобы не плодить лишние div-ы */
+}
+
+#player::before,
+#player::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 3px #1b1f2a;
+}
+
+#player::before { left: 6px; }
+#player::after { right: 6px; }
+
+/* Ступенька (создаётся динамически в JS) */
+.platform {
+  position: absolute;
+  width: 70px;
+  height: 14px;
+  border-radius: 6px;
+  background: #5b8c3e;
+}
+
+#hud {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#score {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2b2b2b;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.7);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 24, 34, 0.85);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  z-index: 20;
+}
+
+.overlay h1 {
+  font-size: 36px;
+  margin: 0 0 12px;
+}
+
+.overlay p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 24px;
+  opacity: 0.9;
+}
+
+.overlay button {
+  font-size: 18px;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 24px;
+  background: #ff5d5d;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.1s ease;
+}
+
+.overlay button:active {
+  transform: scale(0.95);
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Невидимые зоны для тапов на телефоне: левая/правая половина мира */
+#touch-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.touch-zone {
+  flex: 1;
+  height: 100%;
+  pointer-events: auto;
+}
