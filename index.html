@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Doodle Jump — простая версия (без canvas)</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrap">
+    <!--
+      #world — это "мир" игры фиксированного размера 480x720.
+      Шарик и ступеньки — обычные <div>, которые JS двигает
+      через style.left / style.top. Никакого canvas.
+    -->
+    <div id="world">
+      <div id="player"></div>
+      <!-- ступеньки (.platform) будут добавляться сюда через JS -->
+
+      <div id="hud">
+        <div id="score">0</div>
+      </div>
+
+      <div id="start-screen" class="overlay">
+        <h1>Doodle Jump</h1>
+        <p>Прыгай по ступенькам вверх.<br>
+           На компьютере: стрелки ← → или A / D.<br>
+           На телефоне: держи левую/правую половину экрана.</p>
+        <button id="start-btn">Играть</button>
+      </div>
+
+      <div id="game-over-screen" class="overlay hidden">
+        <h1>Game Over</h1>
+        <p>Счёт: <span id="final-score">0</span></p>
+        <button id="restart-btn">Ещё раз</button>
+      </div>
+
+      <!-- Touch controls for mobile -->
+      <div id="touch-controls">
+        <div id="touch-left" class="touch-zone"></div>
+        <div id="touch-right" class="touch-zone"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
